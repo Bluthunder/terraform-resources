@@ -1,0 +1,59 @@
+name: Deploy EC2 with Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      instance_type:
+        description: 'EC2 Instance Type'
+        required: true
+        default: 't2.micro'
+        type: choice
+        options:
+          - t2.micro
+          - t2.small
+          - t3.medium
+          - t3.large
+      aws_region:
+        description: 'AWS Region'
+        required: true
+        default: 'us-east-1'
+        type: choice
+        options:
+          - us-east-1
+          - us-west-1
+          - eu-central-1
+      ami_id:
+        description: 'AMI ID'
+        required: true
+        default: 'ami-12345678'
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Apply Terraform
+        run: |
+          terraform apply -auto-approve \
+            -var="aws_region=${{ github.event.inputs.aws_region }}" \
+            -var="instance_type=${{ github.event.inputs.instance_type }}" \
+            -var="ami_id=${{ github.event.inputs.ami_id }}" \
+            -var="key_pair_name=${{ secrets.AWS_KEY_PAIR }}" \
+            -var="security_group_id=${{ secrets.AWS_SECURITY_GROUP_ID }}" \
+            -var="subnet_id=${{ secrets.AWS_SUBNET_ID }}"
+
+      - name: Output EC2 Public IP
+        run: terraform output ec2_public_ip
