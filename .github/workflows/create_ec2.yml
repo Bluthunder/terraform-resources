@@ -22,10 +22,7 @@ on:
           - us-east-1
           - us-west-1
           - eu-central-1
-      ami_id:
-        description: 'AMI ID'
-        required: true
-        default: 'ami-12345678'
+
 
 permissions:
   contents: read
