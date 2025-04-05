@@ -5,6 +5,8 @@ This repository contains Terraform configuration files for provisioning infrastr
 ---
 
 ## 📁 Project Structure
+
+```
 .
 ├── .github/                 # GitHub-specific files and workflows
 ├── .terraform/              # Local Terraform state and config (auto-generated)
@@ -17,7 +19,8 @@ This repository contains Terraform configuration files for provisioning infrastr
 ├── terraform.tfstate.backup# Backup of the state file
 ├── user_data.sh             # Shell script for EC2 user data or provisioning
 └── variables.tf             # Input variables for Terraform
----
+
+```
 
 ## 🛠️ Prerequisites
 
