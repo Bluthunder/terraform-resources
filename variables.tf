@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "ami_id" {
   description = "Amazon Machine Image ID"
   type        = string
-  default     = "ami-12345678"
+  default     = "ami-084568db4383264d4"
 }
 
 variable "instance_type" {
@@ -16,23 +16,16 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "key_pair_name" {
-  description = "Key pair for SSH access"
-  type        = string
-}
-
-variable "security_group_id" {
-  description = "Security Group ID"
-  type        = string
-}
-
-variable "subnet_id" {
-  description = "Subnet ID"
-  type        = string
-}
 
 variable "instance_name" {
   description = "Name of the EC2 instance"
   type        = string
-  default     = "Terraform-EC2"
+  default     = "Miniproject-EC2"
 }
+
+variable "custom_port" {
+  description = "Custom port to allow inbound traffic on"
+  default     = 8001
+}
+
+
