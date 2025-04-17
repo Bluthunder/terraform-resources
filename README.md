@@ -37,7 +37,7 @@ Ensure the following are installed:
 ### 1. Clone the repository
 
 ```
-git clone https://github.com/yourusername/your-terraform-repo.git
+git clone https://github.com/Bluthunder/terraform-resources
 cd your-terraform-repo
 ```
 
