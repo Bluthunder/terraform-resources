@@ -31,7 +31,9 @@ on:
 
 
 permissions:
+  id-token: write
   contents: read
+
 
 jobs:
   terraform:
@@ -39,6 +41,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::008971663545:role/ec2-ssm-role
+          aws-region: us-east-1
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -55,5 +63,17 @@ jobs:
             -var="instance_type=${{ github.event.inputs.instance_type }}" \
             -var="custom_port=${{ github.event.inputs.custom_port}}"
 
-      - name: Output EC2 Public IP
-        run: terraform output ec2_public_ip
+      - name: Get EC2 Public IP from Terraform Output
+        id: get_ip
+        run: |
+            IP=$(terraform output -raw ec2-public-ip)
+            echo "EC2_PUBLIC_IP=$IP" >> $GITHUB_ENV
+    
+      - name: Store EC2 Public IP in SSM Parameter Store
+        run: |
+              aws ssm put-parameter \
+                --name "/ec2-public-ip" \
+                --value "$EC2_PUBLIC_IP" \
+                --type String \
+                --overwrite
+
