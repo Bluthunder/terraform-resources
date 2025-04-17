@@ -25,7 +25,7 @@ variable "instance_name" {
 
 variable "custom_port" {
   description = "Custom port to allow inbound traffic on"
-  default     = 8001
+  default     = 7001
 }
 
 

@@ -22,6 +22,12 @@ on:
           - us-east-1
           - us-west-1
           - eu-central-1
+      custom_port:
+        description: 'Custom Port'
+        required: true
+        default: '7001'
+        type: string
+        
 
 
 permissions:
@@ -47,10 +53,7 @@ jobs:
           terraform apply -auto-approve \
             -var="aws_region=${{ github.event.inputs.aws_region }}" \
             -var="instance_type=${{ github.event.inputs.instance_type }}" \
-            -var="ami_id=${{ github.event.inputs.ami_id }}" \
-            -var="key_pair_name=${{ secrets.AWS_KEY_PAIR }}" \
-            -var="security_group_id=${{ secrets.AWS_SECURITY_GROUP_ID }}" \
-            -var="subnet_id=${{ secrets.AWS_SUBNET_ID }}"
+            -var="custom_port=${{ github.event.inputs.custom_port}}"
 
       - name: Output EC2 Public IP
         run: terraform output ec2_public_ip
