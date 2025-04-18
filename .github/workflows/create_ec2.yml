@@ -32,7 +32,11 @@ on:
         required: true
         default: 'terraform-ec2'
         type: string
-        
+      ssh_key_name:
+        description: 'SSH Key Name'
+        required: true
+        default: 'private-key'
+        type: string
 
 
 permissions:
@@ -67,7 +71,8 @@ jobs:
             -var="aws_region=${{ github.event.inputs.aws_region }}" \
             -var="instance_type=${{ github.event.inputs.instance_type }}" \
             -var="custom_port=${{ github.event.inputs.custom_port}}" \
-            -var="instance_name=${{github.event.inputs.instance_name}}"
+            -var="instance_name=${{github.event.inputs.instance_name}}" \
+            -var="ssh_key_name=${{github.event.inputs.ssh_key_name}}"
 
       - name: Show Terraform output
         run: terraform output
