@@ -29,3 +29,8 @@ variable "custom_port" {
 }
 
 
+variable "ssh_key_name" {
+  description = "SSH Key Name"
+  default = "private-key"
+  
+}
