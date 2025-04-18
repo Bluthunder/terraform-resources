@@ -27,6 +27,11 @@ on:
         required: true
         default: '7001'
         type: string
+      instance_name:
+        description: 'Instance Name'
+        required: true
+        default: 'terraform-ec2'
+        type: string
         
 
 
@@ -61,7 +66,8 @@ jobs:
           terraform apply -auto-approve \
             -var="aws_region=${{ github.event.inputs.aws_region }}" \
             -var="instance_type=${{ github.event.inputs.instance_type }}" \
-            -var="custom_port=${{ github.event.inputs.custom_port}}"
+            -var="custom_port=${{ github.event.inputs.custom_port}}" \
+            -var="instance_name=${{github.event.inputs.instance_name}}"
 
       - name: Get EC2 Public IP from Terraform Output
         id: get_ip
