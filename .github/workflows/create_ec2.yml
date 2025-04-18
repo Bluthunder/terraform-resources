@@ -76,12 +76,13 @@ jobs:
       - name: Get EC2 Public IP from Terraform Output
         id: get_ip
         run: |
-            IP=$(terraform output -raw ec2_public_ip 2>/dev/null)
-            if [[ "$IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            OUTPUT=$(terraform output -raw ec2_public_ip 2>&1)
+            if [[ "$OUTPUT" =~ ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) ]]; then
+              IP="${BASH_REMATCH[1]}"
               echo "EC2_PUBLIC_IP=$IP"
               echo "EC2_PUBLIC_IP=$IP" >> $GITHUB_ENV
             else
-              echo "Invalid IP output: $IP"
+              echo "Invalid IP output: $OUTPUT"
               exit 1
             fi
     
