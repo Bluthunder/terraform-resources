@@ -76,7 +76,7 @@ resource "tls_private_key" "ssh" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "github-ec2-deploy-key"
+  key_name   = var.ssh_key_name
   public_key = tls_private_key.ssh.public_key_openssh
 
 }
